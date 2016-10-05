@@ -508,7 +508,7 @@
 			} else {
 				var row = $('<li />');
 				row.addClass(timeInt % 86400 < 43200 ? 'ui-timepicker-am' : 'ui-timepicker-pm');
-				row.data('time', (timeInt <= 86400 ? timeInt : timeInt % 86400));
+				row.data('time', settings.wrapHours ? (timeInt <= 86400 ? timeInt : timeInt % 86400) : timeInt);
 				row.text(timeString);
 			}
 
@@ -1028,7 +1028,9 @@
 
 		var seconds = parseInt(timeInt%60)
 			, minutes = parseInt((timeInt/60)%60)
-			, hours = parseInt((timeInt/(60*60))%24);
+			, hours = parseInt((timeInt/(60*60)%24));
+
+		var over24 = parseInt((timeInt/(60*60))) >= 24;
 
 		var time = new Date(1970, 0, 2, hours, minutes, seconds, 0);
 
@@ -1079,6 +1081,7 @@
 				case 'H':
 					hour = time.getHours();
 					if (timeInt === _ONE_DAY) hour = settings.show2400 ? 24 : 0;
+					if (settings.wrapHours === false && over24) hour += 24;
 					output += (hour > 9) ? hour : '0'+hour;
 					break;
 
