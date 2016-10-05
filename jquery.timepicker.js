@@ -1138,7 +1138,7 @@
 		}
 
 		var hour = parseInt(time[2]*1, 10);
-		if (hour > 24) {
+		if (hour >= 24) {
 			if (settings && settings.wrapHours === false) {
 				return null;
 			} else {
